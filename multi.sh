@@ -9,7 +9,10 @@ export WD=/home/aldo/pro/falcon/script4
 
 export VINALVL=8
 export NUM_MODES=9
-export POCKETS=1
+export POCKETS=1 #by default, use the highest ranked pocket only
+#TODO: should have MAX_POCKETS=1 and POCKETS UNDEFINED INSTEAD
+#	   this will require modifications to box_multi.awk, in order to support any of the two
+#	   we can't have both, so that will be checked in this script
 
 usage() {
 	echo "Usage: $O [options] [--] [input file]"
@@ -20,6 +23,7 @@ usage() {
 	echo "  --num_modes <value>    Maximum number of binding modes to generate (default: $NUM_MODES)"
 	echo "  --chains <chain1,chain2,...>    Chains to run the docking on (default: all)"
 	echo "  --pockets <rank1, rank2, rank3,...>    Rank of pockets to run the docking on (default: $POCKETS)"
+	#echo "  --max_pockets <value>    Maximum number of pockets to use (default: $MAX_POCKETS)"
 }
 
 while [[ "$#" -gt 0 ]]; do
@@ -30,6 +34,7 @@ while [[ "$#" -gt 0 ]]; do
 		--num_modes) export NUM_MODES="$2"; shift ;;
 		--chains) export CHAINS="$2"; shift ;;
 		--pockets) export POCKETS="$2"; shift ;;
+		--pockets) export POCKETS="$2"; shift ;;
 		--) shift; break ;;
 		*) usage; exit 1;;
 	esac
@@ -37,9 +42,10 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 cd $WD
-#./sanitize
+./sanitize
+./receptor_pre.sh #comentar si se utiliza desde la aplicación web
 ./ligand.sh
-./receptor.sh
+./receptor_multi.sh
 
 OLD_IFS=$IFS
 IFS=','
