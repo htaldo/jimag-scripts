@@ -5,8 +5,8 @@ export ID=/home/aldo/pro/falcon/script4/input
 export OD=/home/aldo/pro/falcon/script4/output
 export WD=/home/aldo/pro/falcon/script4
 
-export VINALVL=8
-export NUM_MODES=9
+export VINALVL=4
+export NUM_MODES=2
 
 usage() {
 	echo "Usage: $O [options] [--] [input file]"
