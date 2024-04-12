@@ -10,9 +10,6 @@ export WD=/home/aldo/pro/falcon/script4
 
 export VINALVL=4
 export NUM_MODES=2
-#TODO: should have MAX_POCKETS=1 and POCKETS UNDEFINED INSTEAD
-#	   this will require modifications to box_multi.awk, in order to support any of the two
-#	   we can't have both, so that will be checked in this script
 
 usage() {
 	echo "Usage: $O [options] [--] [input file]"
@@ -24,6 +21,7 @@ usage() {
 	echo "  --chains <chain1,chain2,...>    Chains to run the docking on (default: all)"
 	echo "  --pockets <rank1, rank2, rank3,...>    Rank of pockets to run the docking on (default: 1)"
 	echo "  --max_pockets <value>    Maximum number of pockets to use (default: 1)"
+	echo "  --preproc_done    Intended for webapp usage. Assumes clean protein and pocket files are already in output dir"
 }
 
 while [[ "$#" -gt 0 ]]; do
@@ -35,6 +33,7 @@ while [[ "$#" -gt 0 ]]; do
 		--chains) export CHAINS="$2"; shift ;;
 		--pockets) export POCKETS="$2"; shift ;;
 		--max_pockets) export MAX_POCKETS="$2"; shift ;;
+		--preproc_done) export PREPROC=1; shift ;;
 		--) shift; break ;;
 		*) usage; exit 1;;
 	esac
@@ -43,7 +42,10 @@ done
 
 cd $WD
 ./sanitize
-./receptor_pre.sh #comentar si se utiliza desde la aplicación web
+#if no preprocessing has been made, do the following as a part of full auto
+if [[ -z "$PREPROC" ]]; then
+	./receptor_pre.sh
+fi
 ./ligand.sh
 ./receptor_multi.sh
 
@@ -52,6 +54,7 @@ if [[ -n "$MAX_POCKETS" && -n "$POCKETS" ]]; then
 	export MAX_POCKETS=""
 fi
 if [[ -n "$MAX_POCKETS" && -z "$POCKETS" ]]; then
+	#translate max_pockets to a pockets use case
 	export POCKETS="$(echo $MAX_POCKETS | ./max2pockets)"
 fi
 if [[ -z "$MAX_POCKETS" && -z "$POCKETS" ]]; then
