@@ -55,7 +55,7 @@ if [[ -n "$MAX_POCKETS" && -n "$POCKETS" ]]; then
 fi
 if [[ -n "$MAX_POCKETS" && -z "$POCKETS" ]]; then
 	#translate max_pockets to a pockets use case
-	export POCKETS="$(echo $MAX_POCKETS | ./max2pockets)"
+	export POCKETS="$(./max2pockets $MAX_POCKETS)"
 fi
 if [[ -z "$MAX_POCKETS" && -z "$POCKETS" ]]; then
 	export POCKETS=1
