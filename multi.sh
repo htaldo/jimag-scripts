@@ -49,18 +49,31 @@ fi
 ./ligand.sh
 ./receptor_multi.sh
 
+#manage pockets
 if [[ -n "$MAX_POCKETS" && -n "$POCKETS" ]]; then
 	echo "WARNING: SET POCKETS AND MAX_POCKETS. IGNORING MAX_POCKETS"	
 	export MAX_POCKETS=""
 fi
 if [[ -n "$MAX_POCKETS" && -z "$POCKETS" ]]; then
+	# if max_pockets is greater than the pockets given by p2rank, fall back to the later
+	PRANK_ROWS="$(wc -l < $OD/receptor.pdb_predictions.csv)"
+	# subtract the headers row
+	PREDICTED_POCKETS=$((PRANK_ROWS - 1))
+	echo "WARNING: MAX_POCKETS GREATER THAN NUMBER OF PREDICTED POCKETS ($PREDICTED_POCKETS)"
+	echo "WARNING: FALLING BACK TO PREDICTED_POCKETS"
+	if [[ "$MAX_POCKETS" -gt "$PREDICTED_POCKETS" ]]; then
+		MAX_POCKETS="$PREDICTED_POCKETS"
+	fi
 	#translate max_pockets to a pockets use case
 	export POCKETS="$(./max2pockets $MAX_POCKETS)"
 fi
 if [[ -z "$MAX_POCKETS" && -z "$POCKETS" ]]; then
+	#take only the first pocket (full auto)
 	export POCKETS=1
 fi
+echo $POCKETS > "$OD/pockets" #this file will be used to update the docking instance
 
+#perform docking on each pocket
 OLD_IFS=$IFS
 IFS=','
 
