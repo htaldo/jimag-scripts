@@ -9,7 +9,7 @@ export OD=/home/aldo/pro/falcon/script4/output
 export WD=/home/aldo/pro/falcon/script4
 
 export VINALVL=4
-export NUM_MODES=2
+export NUM_MODES=5
 
 usage() {
 	echo "Usage: $O [options] [--] [input file]"
@@ -78,12 +78,15 @@ OLD_IFS=$IFS
 IFS=','
 
 for rank in $POCKETS; do
+	echo -e "\e[1m\e[36m>>\e[39m processing pocket $rank...\033[0m"
 	export CURRENT_POCKET=$rank
 	export CURRENT_POCKET_DIR="$OD/pocket_$CURRENT_POCKET"
 	IFS=$OLD_IFS
 	mkdir $CURRENT_POCKET_DIR
 	./box_multi.sh
 	./dock_multi.sh
+	echo -e "\e[1m\e[36m>>\e[39m splitting conformers...\033[0m"
+	obabel -ipdbqt "$CURRENT_POCKET_DIR/modes.pdbqt" -opdbqt -O "$CURRENT_POCKET_DIR/mode_.pdbqt" -m
 done
 
 #awk -f $WD/pocketindices.awk $OD/receptor.pdbqt_predictions.csv > $OD/resfile

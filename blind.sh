@@ -9,7 +9,7 @@ export VINALVL=4
 export NUM_MODES=2
 
 usage() {
-	echo "Usage: $O [options] [--] [input file]"
+	echo "Usage: $O [options]"
 	echo "Options:"
 	echo "  --input <value>    Input directory (default: $ID)"
 	echo "  --output <value>    Output directory (default: $OD)"
