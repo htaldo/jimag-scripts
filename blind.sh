@@ -1,9 +1,11 @@
 #!/bin/bash
 
 #Defaults
-export ID=/home/aldo/pro/falcon/script4/input
-export OD=/home/aldo/pro/falcon/script4/output
-export WD=/home/aldo/pro/falcon/script4
+export HOMEDIR=/home/aldo
+export SCRIPTDIR=$HOMEDIR/pro/falcon/script4
+export ID=$SCRIPTDIR/input
+export OD=$SCRIPTDIR/output
+export WD=$SCRIPTDIR
 
 export VINALVL=4
 export NUM_MODES=2
