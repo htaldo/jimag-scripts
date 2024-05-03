@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
+#ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
+ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
 
 echo -e "\e[1m\e[36m>>\e[39m optimizing geometry for ligand...\033[0m"
 obabel $ID/ligand.sdf -O $OD/ligand.mol2 --gen3d

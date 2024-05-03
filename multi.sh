@@ -4,8 +4,6 @@
 #NOTE: max_pockets = 1 and pockets = 1 should yield the same result
 
 #Defaults
-export HOMEDIR=/home/aldo
-export SCRIPTDIR=$HOMEDIR/pro/falcon/script4
 export ID=$SCRIPTDIR/input
 export OD=$SCRIPTDIR/output
 export WD=$SCRIPTDIR
