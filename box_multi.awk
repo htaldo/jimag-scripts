@@ -5,7 +5,7 @@ BEGIN {
 	max[1] = -9000; max[2] = -9000; max[3] = -9000 
 	#print the 11nth entry of the 2nd record
 	#(surf_atom_ids), then write to atom_string
-	"awk -v OD="$OD" 'BEGIN { FS = \", \" } NR == ('$CURRENT_POCKET'+1){ print $11 }'\
+	"awk -v OD="$OD" 'BEGIN { FS = \", \" } NR == ('$CURRENT_POCKET'+1) { print $11 }'\
 	< $OD/receptor.pdb_predictions.csv" | getline atom_string
 	n = split(atom_string, atoms, " "); j = 1 #loop vars
 }
