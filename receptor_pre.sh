@@ -7,6 +7,7 @@ PRANKCMD=$HOMEDIR/.local/src/p2rank_2.4/prank
 PRANKCONF=$SCRIPTDIR/configs/blind.groovy
 
 export IF=$ID/receptor.pdb
+babel $ID/receptor.* -O $OD/receptor.pdb
 export OF=$OD/receptor.pdb
 
 $CHIMERACMD --nogui $SCRIPTPATH

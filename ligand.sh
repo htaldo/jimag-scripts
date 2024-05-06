@@ -4,7 +4,7 @@
 ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
 
 echo -e "\e[1m\e[36m>>\e[39m optimizing geometry for ligand...\033[0m"
-obabel $ID/ligand.sdf -O $OD/ligand.mol2 --gen3d
+obabel $ID/ligand.* -O $OD/ligand.mol2 --gen3d
 #obabel $OD/ligand_aux.mol2 -O $OD/ligand.mol2 --conformer --nconf 30
 #rm -f $OD/ligand_aux.mol2
 echo -e "\e[1m\e[36m>>\e[39m preparing ligand...\033[0m"
