@@ -16,7 +16,8 @@ def prot_only(receptor):
 
 
 def chain_only(receptor, chain_names):
-    chains = receptor.sequences(asDict=True)
+    # chains = receptor.sequences(asDict=True)
+    chains = set([n.chain for n in receptor.sequences()])
     for chain in chains:
         if chain not in chain_names:
             for r in receptor.sequence(chain).residues:
@@ -32,7 +33,8 @@ receptor = model[0]
 if chains:
     chain_names = chains.split(",")
 else:
-    chain_names = receptor.sequences(asDict=True)  # use all chains
+    # chain_names = receptor.sequences(asDict=True)  # use all chains
+    chains = set([n.chain for n in receptor.sequences])
 
 chain_only(receptor, chain_names)
 prot_only(receptor)
