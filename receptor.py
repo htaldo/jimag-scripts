@@ -34,7 +34,7 @@ if chains:
     chain_names = chains.split(",")
 else:
     # chain_names = receptor.sequences(asDict=True)  # use all chains
-    chains = set([n.chain for n in receptor.sequences])
+    chain_names = set([n.chain for n in receptor.sequences()])
 
 chain_only(receptor, chain_names)
 prot_only(receptor)
