@@ -1,8 +1,8 @@
 #!/bin/bash
 
 WD=$SCRIPTDIR
-#ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
-ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
+ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
+#ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
 
 cd $ADFRDIR
 echo -e "\e[1m\e[36m>>\e[39m preparing receptor...\033[0m"

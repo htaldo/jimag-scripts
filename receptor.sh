@@ -1,16 +1,17 @@
 #!/bin/bash
 
 WD=$SCRIPTDIR
-#ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
-ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
+ADFRDIR=$HOMEDIR/.local/src/adfr/ADFRsuite-1.0/bin
+#ADFRDIR=$HOMEDIR/ADFRsuite-1.0/bin
 CHIMDIR=$HOMEDIR/.local/src/chimera/bin
 
 echo -e "\e[1m\e[36m>>\e[39m CHAINS: '$CHAINS' \033[0m"
 echo -e "\e[1m\e[36m>>\e[39m cleaning receptor...\033[0m"
 
 export IF=$ID/receptor.pdb
-obabel $ID/receptor.* -O $OD/receptor.pdb
+obabel $ID/receptor.* -O $IF
 export OF=$OD/receptor.pdb
+echo "IF = $IF OF = $OF"
 cd $CHIMDIR; ./chimera --nogui $WD/receptor.py
 cd $ADFRDIR
 echo -e "\e[1m\e[36m>>\e[39m preparing receptor...\033[0m"
