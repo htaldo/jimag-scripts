@@ -4,9 +4,9 @@
 #NOTE: max_pockets = 1 and pockets = 1 should yield the same result
 
 #Defaults
-export ID=$SCRIPTDIR/input
-export OD=$SCRIPTDIR/output
 export WD=$SCRIPTDIR
+export ID=$WD/input
+export OD=$WD/output
 
 export VINALVL=4
 export NUM_MODES=5
@@ -16,6 +16,7 @@ usage() {
 	echo "Options:"
 	echo "  --input <value>    Input directory (default: $ID)"
 	echo "  --output <value>    Output directory (default: $OD)"
+	echo "  --wd <value>    Working directory (default: $WD)"
 	echo "  --vinalvl <value>    Level of exhaustiveness used by vina (default: $VINALVL)"
 	echo "  --num_modes <value>    Maximum number of binding modes to generate (default: $NUM_MODES)"
 	echo "  --chains <chain1,chain2,...>    Chains to run the docking on (default: all)"
@@ -40,14 +41,13 @@ while [[ "$#" -gt 0 ]]; do
 	shift
 done
 
-cd $WD
-./sanitize
+$SCRIPTDIR/sanitize
 #if no preprocessing has been made, do the following as a part of full auto
 if [[ -z "$PREPROC" ]]; then
-	./receptor_pre.sh
+	$SCRIPTDIR/receptor_pre.sh
 fi
-./ligand.sh
-./receptor_multi.sh
+$SCRIPTDIR/ligand.sh
+$SCRIPTDIR/receptor_multi.sh
 
 #manage pockets
 if [[ -n "$MAX_POCKETS" && -n "$POCKETS" ]]; then
@@ -65,7 +65,7 @@ if [[ -n "$MAX_POCKETS" && -z "$POCKETS" ]]; then
 		MAX_POCKETS="$PREDICTED_POCKETS"
 	fi
 	#translate max_pockets to a pockets use case
-	export POCKETS="$(./max2pockets $MAX_POCKETS)"
+	export POCKETS="$($SCRIPTDIR/max2pockets $MAX_POCKETS)"
 fi
 if [[ -z "$MAX_POCKETS" && -z "$POCKETS" ]]; then
 	#take only the first pocket (full auto)
@@ -83,8 +83,8 @@ for rank in $POCKETS; do
 	export CURRENT_POCKET_DIR="$OD/pocket_$CURRENT_POCKET"
 	IFS=$OLD_IFS
 	mkdir $CURRENT_POCKET_DIR
-	./box_multi.sh
-	./dock_multi.sh
+	$SCRIPTDIR/box_multi.sh
+	$SCRIPTDIR/dock_multi.sh
 	echo -e "\e[1m\e[36m>>\e[39m splitting conformers...\033[0m"
 	obabel -ipdbqt "$CURRENT_POCKET_DIR/modes.pdbqt" -opdbqt -O "$CURRENT_POCKET_DIR/mode_.pdbqt" -m
 done

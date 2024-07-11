@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WD=$SCRIPTDIR
+#WD=$SCRIPTDIR
 #VINADIR=$HOMEDIR/.local/src/autodock_vina_1_1_2_linux_x86/bin
 VINADIR=$HOMEDIR/.local/src/vina_1.2.5
 
